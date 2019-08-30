@@ -4,8 +4,9 @@ Implemented two models for detecting the presence of traffic signs and different
 * Built image datasets and image annotations in TensorFlow record format.
 * Trained Faster R-CNN on the LISA Traffic Signs dataset to detect and recognize 47 United States traffic sign types.
 * Trained SSD on the Davis King’s vehicles dataset to differentiate the front and rear views of the vehicles.
-* Evaluate the accuracy and apply the trained Faster R-CNN and SSD models to input images and
-video streams.
+* Evaluate the accuracy and apply the trained Faster R-CNN and SSD models to input images and video streams.
+
+**This is the first part of the project, which mainly focus on training Faster R-CNN model on detection traffic signs. For the second part, please refer to [Vehicles View Detection](https://github.com/meng1994412/Vehicles_View_Detection) repo**
 
 ## Packages Used
 * Python 3.6
@@ -53,13 +54,36 @@ The `faster_rcnn_resnet101_lisa.config` ([check here](https://github.com/meng199
 The `model_main.py` ([check here](https://github.com/tensorflow/models/blob/master/research/object_detection/model_main.py)) inside Tensorflow Object Detection API is used to train the model. The following command demonstrates the proper start of the training process (make sure we are current under `models/research/` directory of Tensorflow Object Detection API and source the `setup.sh` file).
 ```
 python object_detection/model_main.py \
---pipeline_config_path=YOUR_CONFIGURATION_PATH \
---model_dir=YOUR_PRE_TRAINED_MODEL_PATH \
+--pipeline_config_path=PATH_TO_CONFIGURATION \
+--model_dir=PATH_TO_PRE_TRAINED_MODEL \
 --num_train_steps=100000 \
 --sample_1_of_n_eval_examples=1 \
 --alsologtostderr
 ```
 
+The `export_inference_graph.py` ([check here](https://github.com/tensorflow/models/blob/master/research/object_detection/export_inference_graph.py)) in Tensorflow Object Detection API is used to export our model for inference. The following command can be used to export the model.
+```
+python object_detection/export_inference_graph.py \
+--input_type image_tensor \
+--pipeline_config_path PATH_TO_CONFIGURATION
+--trained_checkpoint_prefix PATH_TO_TRAINING_MODEL/model.ckpt-100000 \
+--output PATH_TO_EXPORT_MODEL
+```
+
+### Apply Faster R-CNN model to images and videos
+The `predict_image.py` ([check here](https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/predict_image.py)) applys the network we trained to an input image outside the dataset it is trained on. And the `predict_video.py` ([check here](https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/predict_video.py)) apply to an input video.
+
+The following command can apply Faster R-CNN model to inference of images and videos.
+```
+python predict_image.py --model PATH_TO_EXPORT_MODEL/fronzen_inference_graph.pb --labels PATH_TO_CLASSES_FILE/classes.pbtxt --image SAMPLE_IMAGE.jpg --num_classes NUM_OF_CLASSES
+```
+```
+python predict_video.py --model PATH_TO_EXPORT_MODEL/fronzen_inference_graph.pb --labels PATH_TO_CLASSES_FILE/classes.pbtxt --input SAMPLE_VIDEO.mp4 --output OUTPUT_VIDEO.mp4 --num_classes NUM_OF_CLASSES
+```
+
+
+## Results
+### Evaluation of the Faster R-CNN model
 Figure 1 and Figure 2 below show the evaluation of the model including precision and recall of detection boxes.
 
 <img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/DetectionBoxes_Precision.png" height="500">
@@ -70,24 +94,19 @@ Figure 1: Precision evaluation of the model.
 
 Figure 2: Recall evaluation of the model.
 
-The `export_inference_graph.py` ([check here](https://github.com/tensorflow/models/blob/master/research/object_detection/export_inference_graph.py)) in Tensorflow Object Detection API is used to export our model for inference. The following command can be used to export the model.
-```
-python object_detection/export_inference_graph.py \
---input_type image_tensor \
---pipeline_config_path YOUR_CONFIGURATION_PATH
---trained_checkpoint_prefix YOUR_TRAINING_MODEL_PATH/model.ckpt-100000 \
---output YOUR_PATH_TO_EXPORT_MODEL
-```
-
 ### Apply Faster R-CNN model to images and videos
-The `predict_image.py` ([check here](https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/predict_image.py)) applys the network we trained to an input image outside the dataset it is trained on. And the `predict_video.py` ([check here](https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/predict_video.py)) apply to an input video.
-
 Figure 3 and Figure 4 show two samples for detecting the some of the traffic signs.
 
-<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/sample_1.png" height="400">
+<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/sample_1.png" height="300">
 
 Figure 3: Sample #1 for detecting stop signs and pedestrian crossing sign in the image.
 
-<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/DetectionBoxes_Recall.png" height="600">
+<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/sample_2.png" height="600">
 
 Figure 2: Sample #2 for detect signal ahead signs in the image
+
+## Next Step
+The next step of the project is to find some techniques to increase the detection accuracy.
+
+## Vehicles View Detection
+This is the second part of the project, please refer to [Vehicles View Detection](https://github.com/meng1994412/Vehicles_View_Detection) repo for more details.
