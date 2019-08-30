@@ -84,18 +84,18 @@ python predict_video.py --model PATH_TO_EXPORT_MODEL/fronzen_inference_graph.pb 
 
 ## Results
 ### Evaluation of the Faster R-CNN model
-Figure 1 and Figure 2 below show the evaluation of the model including precision and recall of detection boxes.
+Figure 1 and Figure 2 below show the evaluation of the model including precision and recall of detection boxes from the Tensorboard. As we can see, the Faster R-CNN achieves 98.26% mAP @ 0.5 IoU.
 
-<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/DetectionBoxes_Precision.png" height="500">
+<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/DetectionBoxes_Precision.png" height="400">
 
 Figure 1: Precision evaluation of the model.
 
-<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/DetectionBoxes_Recall.png" height="500">
+<img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/DetectionBoxes_Recall.png" height="400">
 
 Figure 2: Recall evaluation of the model.
 
 ### Apply Faster R-CNN model to images and videos
-Figure 3 and Figure 4 show two samples for detecting the some of the traffic signs.
+Figure 3 and Figure 4 show two samples for detecting the some of the traffic signs. However, there are still some false-positive cases.
 
 <img src="https://github.com/meng1994412/Traffic_Sign_Detection/blob/master/output/sample_1.png" height="300">
 
@@ -106,7 +106,7 @@ Figure 3: Sample #1 for detecting stop signs and pedestrian crossing sign in the
 Figure 2: Sample #2 for detect signal ahead signs in the image
 
 ## Next Step
-The next step of the project is to find some techniques to increase the detection accuracy.
+The next step of the project is to find some techniques to increase the detection accuracy, and reduce the false-positive cases. And add more traffic signs to model.
 
 ## Vehicles View Detection
-This is the second part of the project, please refer to [Vehicles View Detection](https://github.com/meng1994412/Vehicles_View_Detection) repo for more details.
+For the second part of the project, please refer to [Vehicles View Detection](https://github.com/meng1994412/Vehicles_View_Detection) repo for more details.
